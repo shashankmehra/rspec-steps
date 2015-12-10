@@ -89,6 +89,10 @@ there's a :step hook), this shift *no longer* applies to config.before _et al_
 -- you'll need to use config.before :each to run around each step. This is the
 primary change to the Steps interface that called for a major version bump.
 
+If you're migrating a project from a previous version: be sure that any
+dependency on Waterpig is at least at 0.12. Then remove any `before :step`
+calls in spec support files.
+
 ## Advanced stuff:  shared steps
 
 If you have (for example) two user stories that share the same first N steps but then
