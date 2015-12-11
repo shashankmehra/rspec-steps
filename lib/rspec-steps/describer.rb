@@ -3,9 +3,9 @@ require 'rspec-steps/step'
 require 'rspec-steps/hook'
 require 'rspec-steps/step-list'
 require 'rspec-steps/lets'
+require 'rspec-steps/modules'
 
 module RSpec::Steps
-
   class Describer
     def initialize(args, metadata, &block)
       @group_args = args
@@ -17,9 +17,10 @@ module RSpec::Steps
       @step_list = StepList.new
       @hooks = []
       @let_list = []
+      @modules = []
       instance_eval(&block)
     end
-    attr_reader  :group_args, :let_list, :step_list, :hooks, :metadata
+    attr_reader  :group_args, :modules, :let_list, :step_list, :hooks, :metadata
 
     def step(*args, &action)
       metadata = {}
@@ -45,8 +46,18 @@ module RSpec::Steps
       SharedSteps[name] = Describer.new(args, {:caller => caller}, &block)
     end
 
+    def include(mod)
+      @modules << ModuleInclusion.new(mod)
+    end
+
+    def extend(mod)
+      @modules << ModuleExtension.new(mod)
+    end
+
     def perform_steps(name)
       describer = SharedSteps.fetch(name)
+      @modules += describer.modules
+      @let_list += describer.let_list
       @hooks += describer.hooks
       @step_list += describer.step_list
     end
