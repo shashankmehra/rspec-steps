@@ -51,7 +51,7 @@ module RSpec::Steps
     end
 
     def extend(mod)
-      @modules << ModuleExtendsion.new(mod)
+      @modules << ModuleExtension.new(mod)
     end
 
     def perform_steps(name)

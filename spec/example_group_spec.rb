@@ -19,6 +19,29 @@ describe RSpec::Core::ExampleGroup do
       end
     end
 
+    it "should handle inclusion and extension with modules" do
+      module Testing
+        def something
+          42
+        end
+      end
+
+      group = nil
+      sandboxed do
+        group = RSpec.steps "Test Steps" do
+          include Testing
+          extend Testing
+
+          it("accesses a method from a module"){ expect(something).to eq 42 }
+        end
+        group.run
+      end
+
+      group.examples.each do |example|
+        expect(example.metadata[:execution_result].status).to eq(:passed)
+      end
+    end
+
     it "should define let blocks correctly" do
       group = nil
       sandboxed do
