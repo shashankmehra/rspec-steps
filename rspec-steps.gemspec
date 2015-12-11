@@ -38,6 +38,7 @@ Gem::Specification.new do |spec|
   lib/rspec-steps/hook.rb
   lib/rspec-steps/step-result.rb
   lib/rspec-steps/lets.rb
+  lib/rspec-steps/modules.rb
   lib/rspec-steps/monkeypatching.rb
   doc/README
   doc/Specifications
