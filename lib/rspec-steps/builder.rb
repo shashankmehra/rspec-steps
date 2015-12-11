@@ -8,6 +8,9 @@ module RSpec::Steps
       describer = @describer
 
       RSpec.describe(*describer.group_args, describer.metadata) do
+        describer.modules.each do |mod|
+          mod.apply(self)
+        end
         describer.let_list.each do |letter|
           letter.define_on(describer.step_list, self)
         end
