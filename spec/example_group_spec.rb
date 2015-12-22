@@ -83,6 +83,19 @@ describe RSpec::Core::ExampleGroup do
       end
     end
 
+    it "should be able to access an example in blocks" do
+      group = nil
+      metadata = nil
+      sandboxed do
+        group = RSpec.steps "Test Steps" do
+          it("sets @a"){|example| metadata = example.metadata }
+        end
+        group.run
+      end
+
+      expect(metadata.respond_to?(:[])).to be_truthy
+    end
+
     it "should run each_step hooks" do
       group = nil
       afters = []
