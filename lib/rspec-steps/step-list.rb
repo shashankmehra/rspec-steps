@@ -52,7 +52,7 @@ module RSpec::Steps
       @results[step]
     end
 
-    def run_only_once(context_example)
+    def run_only_once(context_example, running_example)
       return unless @results.nil?
       failed_step = nil
       @let_bangs.each do |let_name|
@@ -63,7 +63,7 @@ module RSpec::Steps
         [
           step,
           if failed_step.nil?
-            result = capture_result(step, context_example)
+            result = capture_result(step, context_example, running_example)
             if result.failed?
               failed_step = result
             end
@@ -75,8 +75,8 @@ module RSpec::Steps
       end ]
     end
 
-    def capture_result(step, context_example)
-      StepResult.new(step, step.run_inside(context_example), nil, nil)
+    def capture_result(step, context_example, running_example)
+      StepResult.new(step, step.run_inside(context_example, running_example), nil, nil)
     rescue BasicObject => ex
       StepResult.new(step, nil, ex, nil)
     end

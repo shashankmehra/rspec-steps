@@ -9,15 +9,15 @@ module RSpec::Steps
     def define_on(step_list, example_group)
       step = self
       example_group.it(*args, metadata) do |example|
-        step_list.run_only_once(self)
+        step_list.run_only_once(self, example)
         result = step_list.result_for(step)
         pending if result.is_after_failed_step?
         expect(result).to have_executed_successfully
       end
     end
 
-    def run_inside(example)
-      example.instance_eval(&action)
+    def run_inside(example, ex_obj)
+      example.instance_exec(ex_obj, &action)
     end
 
   end
