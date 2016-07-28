@@ -99,7 +99,7 @@ If you have (for example) two user stories that share the same first N steps but
 diverge, you can DRY your code out with shared_steps blocks, like so:
 
        shared_steps "For a logged-in user" do
-         it "should have login form"
+         it "should have login form" do
            visit root
            page.should have_selector "form#login"
          end
