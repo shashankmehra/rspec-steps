@@ -12,6 +12,4 @@ rspec-steps-*.gem
 gh-pages/
 tmp/
 spec/examples.txt
-.cadre/
 errors.err
-spec_help/cadre.rb

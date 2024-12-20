@@ -1,5 +1,4 @@
 require 'simplecov-json'
-require 'cadre/simplecov'
 
 SimpleCov.start do
   coverage_dir "coverage"
@@ -8,6 +7,5 @@ SimpleCov.start do
   formatter SimpleCov::Formatter::MultiFormatter[
     SimpleCov::Formatter::HTMLFormatter,
     SimpleCov::Formatter::JSONFormatter,
-    Cadre::SimpleCov::VimFormatter
   ]
 end
