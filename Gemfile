@@ -1,7 +1,6 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem 'fuubar'
-gem 'rspec', "~> 3.0.0"
-gem 'cadre'
+gem 'bundler', '2.3.8'
+gem 'rspec', ENV['RSPEC_VERSION'] || '~> 3.12.0'
 
 gemspec

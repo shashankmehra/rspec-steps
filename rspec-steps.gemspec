@@ -56,7 +56,6 @@ Gem::Specification.new do |spec|
   spec.rubygems_version = "1.3.5"
 
   dev_deps = [
-    ["corundum", ">= 0.4.0"],
     ["metric_fu", "~> 4.11.1"],
   ]
   if spec.respond_to? :specification_version then
@@ -77,7 +76,6 @@ Gem::Specification.new do |spec|
     end
   end
 
-  spec.has_rdoc		= true
   spec.extra_rdoc_files = Dir.glob("doc/**/*")
   spec.rdoc_options	= %w{--inline-source }
   spec.rdoc_options	+= %w{--main doc/README }
