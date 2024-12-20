@@ -179,7 +179,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (= 2.3.8)
   metric_fu (~> 4.11.1)
-  rspec (= 3.12.0)
+  rspec (~> 3.12.0)
   rspec-steps!
 
 BUNDLED WITH
