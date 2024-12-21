@@ -13,3 +13,4 @@ gh-pages/
 tmp/
 spec/examples.txt
 errors.err
+.vscode/
