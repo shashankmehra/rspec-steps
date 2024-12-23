@@ -51,11 +51,11 @@ module RSpec::Steps
       @example_runner = StepExampleRunner.new(@context_example, @running_example)
     end
 
-    def before(scope = :each, &block)
+    def before(scope = :step, &block)
       @step_context.add_before(scope, &block)
     end
 
-    def after(scope = :each, &block)
+    def after(scope = :step, &block)
       @step_context.add_after(scope, &block)
     end
 
@@ -77,7 +77,7 @@ module RSpec::Steps
     def it(*all_args, &block)
       @example_runner.instance_variable_set(:@current_metadata, @metadata_stack.last)
 
-      @step_context.run_before_hooks(:all, @example_runner)
+      @step_context.run_before_hooks(:step, @example_runner)
       @step_context.run_before_hooks(:each, @example_runner)
 
       @step_context.run_around_hooks(:each, @example_runner) do
@@ -85,7 +85,6 @@ module RSpec::Steps
       end
 
       @step_context.run_after_hooks(:each, @example_runner)
-      @step_context.run_after_hooks(:all, @example_runner)
     end
 
     def let(name, &block)

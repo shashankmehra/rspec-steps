@@ -77,6 +77,10 @@ module RSpec::Steps
           end
         ]
       end ]
+
+      step_runner.instance_eval do
+        @step_context.run_after_hooks(:step, @example_runner)
+      end
     end
 
     def capture_result(step, step_runner)
