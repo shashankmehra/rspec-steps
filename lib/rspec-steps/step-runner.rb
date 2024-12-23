@@ -6,6 +6,7 @@ module RSpec::Steps
       @context_example = context_example
       @running_example = running_example
 
+      @current_metadata = {}
       @let_hash = {}
       @subject_hash = {}
       @counter = 0
@@ -21,6 +22,10 @@ module RSpec::Steps
 
     def is_expected
       expect(subject)
+    end
+
+    def metadata
+      @current_metadata
     end
 
     def method_missing(method, *args, &block)
@@ -42,6 +47,7 @@ module RSpec::Steps
       @running_example = running_example
 
       @step_context = StepContext.new
+      @metadata_stack = [@running_example.metadata.dup]
       @example_runner = StepExampleRunner.new(@context_example, @running_example)
     end
 
@@ -59,10 +65,18 @@ module RSpec::Steps
 
     def describe(description, metadata = {}, &block)
       @example_runner.instance_eval { @counter += 1 }
+
+      parent_metadata = @metadata_stack.last.dup
+      @metadata_stack.push(parent_metadata.merge(metadata))
+
       instance_eval(&block)
+
+      @metadata_stack.pop
     end
 
     def it(*all_args, &block)
+      @example_runner.instance_variable_set(:@current_metadata, @metadata_stack.last)
+
       @step_context.run_before_hooks(:all, @example_runner)
       @step_context.run_before_hooks(:each, @example_runner)
 
