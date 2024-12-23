@@ -1,3 +1,5 @@
+require_relative "step-context"
+
 module RSpec::Steps
   class StepExampleRunner
     def initialize(context_example, running_example)
@@ -39,7 +41,20 @@ module RSpec::Steps
       @context_example = context_example
       @running_example = running_example
 
+      @step_context = StepContext.new
       @example_runner = StepExampleRunner.new(@context_example, @running_example)
+    end
+
+    def before(scope = :each, &block)
+      @step_context.add_before(scope, &block)
+    end
+
+    def after(scope = :each, &block)
+      @step_context.add_after(scope, &block)
+    end
+
+    def around(scope = :each, &block)
+      @step_context.add_around(scope, &block)
     end
 
     def describe(description, metadata = {}, &block)
@@ -48,7 +63,15 @@ module RSpec::Steps
     end
 
     def it(*all_args, &block)
-      @example_runner.instance_eval(&block)
+      @step_context.run_before_hooks(:all, @example_runner)
+      @step_context.run_before_hooks(:each, @example_runner)
+
+      @step_context.run_around_hooks(:each, @example_runner) do
+        @example_runner.instance_eval(&block)
+      end
+
+      @step_context.run_after_hooks(:each, @example_runner)
+      @step_context.run_after_hooks(:all, @example_runner)
     end
 
     def let(name, &block)
