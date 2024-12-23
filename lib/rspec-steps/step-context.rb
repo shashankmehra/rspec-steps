@@ -22,10 +22,12 @@ module RSpec::Steps
 
     def run_before_hooks(scope, example)
       @before_hooks[scope].each { |hook| example.instance_eval(&hook) }
+      @before_hooks[scope] = []
     end
 
     def run_after_hooks(scope, example)
       @after_hooks[scope].each { |hook| example.instance_eval(&hook) }
+      @after_hooks[scope] = []
     end
 
     def run_around_hooks(scope, example, &block)
@@ -36,6 +38,8 @@ module RSpec::Steps
       hooks.reduce(block) do |wrapped_block, hook|
         -> { example.instance_exec(wrapped_block, &hook) }
       end.call
+
+      @around_hooks[scope] = []
     end
   end
 end
